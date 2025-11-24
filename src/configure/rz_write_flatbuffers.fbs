@@ -1,0 +1,64 @@
+namespace Image.Metadatas; 
+
+table Picture { 
+  file_name:string;
+  filesize:float;
+  filesize_x:float;
+  filesize_y:float; 
+  filepath:string;
+  exifdata:[Exif];
+}
+
+table Exif {
+  file_name:string;
+  gpstag:string;
+	imagedescription:string;
+	gpslongituderef:string;
+	gpsmapdatum:string;
+	imageuniqueid:string;
+	imageid:string;
+	gpslatituderef:string;
+	usercomment:string;
+	gpsaltitude:string;
+	documentname:string;
+	gpstimestamp:string;
+	copyright:string;
+	gpsaltituderef:string;
+	gpsdatestamp:string;
+	gpslongitude:string;
+	gpslatitude:string;
+	datetimeoriginal:string;
+	securityclassification:string;
+}
+
+table Iptc {
+  file_name:string;
+  objectname:string;
+	copyright:string;
+	caption:string;
+}
+
+table Xmp {
+  file_name:string;
+  copyrightowner:string;
+	documentname:string;
+	zipcode:string;
+	language:string;
+	countrycode:string;
+	localaddress:string;
+	sublocation:string;
+	category:string;
+	provincestate:string;
+	city:string;
+	imageid:string;
+	keywords:string;
+	countryname:string;
+	streetname:string;
+	rights:string;
+	description:string;
+	title:string;
+	subject:string;
+	securityclassification:string;
+}
+
+root_type Picture;
