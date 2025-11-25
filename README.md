@@ -161,17 +161,28 @@ bla bla ... with a little help from my friends
 │       ├── repo-create_doctoc.yml_
 │       ├── repo-create_doctoc_md.yml
 │       └── repo-create_tree_readme.yml
+├── .gitignore
 ├── LICENSE
 ├── README.md
 ├── src
 │   ├── CMakeLists.txt
 │   ├── configure
-│   │   ├── rz_config.hpp.in
-│   │   └── rz_write_flatbuffers.fbs
-│   └── main.cpp
+│   │   ├── CMakeLists.txt
+│   │   └── rz_config.hpp.in
+│   ├── includes
+│   │   ├── rz_config.hpp
+│   │   ├── rz_photo-gallery_plugins.hpp
+│   │   ├── rz_write_flatbuffers.hpp
+│   │   └── rz_write_flatbuffers_generated.h
+│   ├── rz_write_flatbuffers.cpp
+│   ├── schemas
+│   │   ├── rz_write_flatbuffers.fbs
+│   │   └── rz_write_flatbuffers.schema.json
+│   ├── test_read.cpp
+│   └── test_write.cpp
 └── tree.bak
 
-8 directories, 21 files
+10 directories, 30 files
 ```
 <!-- readme-tree end -->
 
