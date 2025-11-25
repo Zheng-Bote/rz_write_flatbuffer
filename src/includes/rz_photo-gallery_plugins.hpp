@@ -2,7 +2,7 @@
  * @file rz_photo-gallery_plugins.hpp
  * @author ZHENG Bote (robert.hase-zheng.net)
  * @brief QT plugin interface
- * @version 2.3.0
+ * @version 2.3.1
  * @date 2025-11-25
  *
  * @copyright Copyright (c) 2023-2025 ZHENG Robert
@@ -15,6 +15,7 @@
 #include <QHash>
 #include <QMap>
 #include <QString>
+#include <QtPlugin>
 #include <string>
 #include <tuple>
 
@@ -51,4 +52,5 @@ public:
     virtual QHash<QString, QString> getQHash(const QString &type = "") = 0;
 };
 
-Q_DECLARE_INTERFACE(Plugin, "net.hase-zheng.photo_gallery_plugins");
+#define Plugin_iid "net.hase-zheng.photo_gallery_plugins"
+Q_DECLARE_INTERFACE(Plugin, Plugin_iid)
