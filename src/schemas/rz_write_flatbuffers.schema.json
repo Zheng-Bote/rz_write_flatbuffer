@@ -1,0 +1,183 @@
+{
+  "$schema": "https://json-schema.org/draft/2019-09/schema",
+  "definitions": {
+    "Image_Metadatas_Picture" : {
+      "type" : "object",
+      "properties" : {
+        "file_name" : {
+                "type" : "string"
+              },
+        "filesize" : {
+                "type" : "number"
+              },
+        "filesize_x" : {
+                "type" : "number"
+              },
+        "filesize_y" : {
+                "type" : "number"
+              },
+        "filepath" : {
+                "type" : "string"
+              },
+        "exifdata" : {
+                "$ref" : "#/definitions/Image_Metadatas_Exif"
+              },
+        "iptcdata" : {
+                "$ref" : "#/definitions/Image_Metadatas_Iptc"
+              },
+        "xmpdata" : {
+                "$ref" : "#/definitions/Image_Metadatas_Xmp"
+              }
+      },
+      "additionalProperties" : false
+    },
+    "Image_Metadatas_Exif" : {
+      "type" : "object",
+      "properties" : {
+        "file_name" : {
+                "type" : "string"
+              },
+        "gpstag" : {
+                "type" : "string"
+              },
+        "imagedescription" : {
+                "type" : "string"
+              },
+        "gpslongituderef" : {
+                "type" : "string"
+              },
+        "gpsmapdatum" : {
+                "type" : "string"
+              },
+        "imageuniqueid" : {
+                "type" : "string"
+              },
+        "imageid" : {
+                "type" : "string"
+              },
+        "gpslatituderef" : {
+                "type" : "string"
+              },
+        "usercomment" : {
+                "type" : "string"
+              },
+        "gpsaltitude" : {
+                "type" : "string"
+              },
+        "documentname" : {
+                "type" : "string"
+              },
+        "gpstimestamp" : {
+                "type" : "string"
+              },
+        "copyright" : {
+                "type" : "string"
+              },
+        "gpsaltituderef" : {
+                "type" : "string"
+              },
+        "gpsdatestamp" : {
+                "type" : "string"
+              },
+        "gpslongitude" : {
+                "type" : "string"
+              },
+        "gpslatitude" : {
+                "type" : "string"
+              },
+        "datetimeoriginal" : {
+                "type" : "string"
+              },
+        "securityclassification" : {
+                "type" : "string"
+              }
+      },
+      "additionalProperties" : false
+    },
+    "Image_Metadatas_Iptc" : {
+      "type" : "object",
+      "properties" : {
+        "file_name" : {
+                "type" : "string"
+              },
+        "objectname" : {
+                "type" : "string"
+              },
+        "copyright" : {
+                "type" : "string"
+              },
+        "caption" : {
+                "type" : "string"
+              }
+      },
+      "additionalProperties" : false
+    },
+    "Image_Metadatas_Xmp" : {
+      "type" : "object",
+      "properties" : {
+        "file_name" : {
+                "type" : "string"
+              },
+        "copyrightowner" : {
+                "type" : "string"
+              },
+        "documentname" : {
+                "type" : "string"
+              },
+        "zipcode" : {
+                "type" : "string"
+              },
+        "language" : {
+                "type" : "string"
+              },
+        "countrycode" : {
+                "type" : "string"
+              },
+        "localaddress" : {
+                "type" : "string"
+              },
+        "sublocation" : {
+                "type" : "string"
+              },
+        "category" : {
+                "type" : "string"
+              },
+        "provincestate" : {
+                "type" : "string"
+              },
+        "city" : {
+                "type" : "string"
+              },
+        "imageid" : {
+                "type" : "string"
+              },
+        "keywords" : {
+                "type" : "string"
+              },
+        "countryname" : {
+                "type" : "string"
+              },
+        "streetname" : {
+                "type" : "string"
+              },
+        "rights" : {
+                "type" : "string"
+              },
+        "description" : {
+                "type" : "string"
+              },
+        "title" : {
+                "type" : "string"
+              },
+        "subject" : {
+                "type" : "string"
+              },
+        "securityclassification" : {
+                "type" : "string"
+              }
+      },
+      "additionalProperties" : false
+    }
+  },
+  "$ref" : "#/definitions/Image_Metadatas_Picture"
+}

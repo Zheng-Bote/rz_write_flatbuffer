@@ -6,7 +6,9 @@ table Picture {
   filesize_x:float;
   filesize_y:float; 
   filepath:string;
-  exifdata:[Exif];
+  exifdata:Exif;
+  iptcdata:Iptc;
+	xmpdata:Xmp;
 }
 
 table Exif {
@@ -62,3 +64,4 @@ table Xmp {
 }
 
 root_type Picture;
+file_identifier "PLUG";

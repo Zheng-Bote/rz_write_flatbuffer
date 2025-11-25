@@ -27,6 +27,9 @@
   - [Dependencies](#dependencies)
   - [folder structure](#folder-structure)
   - [Usage/Examples/Tests](#usageexamplestests)
+    - [Tests](#tests)
+      - [Serialization (create FlatBuffers bin)](#serialization-create-flatbuffers-bin)
+      - [Deserialization (read FlatBuffers bin)](#deserialization-read-flatbuffers-bin)
 - [API Reference](#api-reference)
   - [Inputs](#inputs)
   - [Outputs](#outputs)
@@ -181,6 +184,41 @@ bla bla ... usage is intuitive and runs mostly automatically with no needs of an
 
 ```HTML
 <mark> under construction </mark>
+```
+
+### Tests
+
+#### Serialization (create FlatBuffers bin)
+
+```bash
+I_am_root$ ./test_write
+
+Name:...............write FlatBuffer
+Name:...............rz_write_flatbuffers
+Version:............0.1.0
+Description:........Plugin to export Metadata to FlatBuffers
+Technical:..........Clang 20.1.8 c++23
+Author:.............ZHENG Bote
+Homepage:...........https://github.com/Zheng-Bote/rz_write_flatbuffer
+
+Loaded:  "/home/zb_bamboo/DEV/CPP/qt_files_photo-gallery/plugins/rz_write_flatbuffer/build/librz_write_flatbuffers.so"
+Plugin object OK
+Plugin:  "write FlatBuffer"   "rz_write_flatbuffers-v0.1.0"
+true : "/home/zb_bamboo/DEV/CPP/qt_files_photo-gallery/plugins/rz_write_flatbuffer/src/rz_write_flatbuffers.cpp:setQHash: PICTURE"
+FlatBuffer saved:  "2014-04-18_203353.bin" ( 924  bytes)
+
+exit handler
+Plugin closed and unloaded
+```
+
+#### Deserialization (read FlatBuffers bin)
+
+```bash
+I_am_root$./test_read
+Picture Name: "2014-04-18_203353.jpg"
+Exif Description:  "Ein schönes Bild"
+IPTC Object:  "Sonnenuntergang"
+XMP Title: "Sommer am Meer"
 ```
 
 <p align="right">(<a href="#top">back to top</a>)</p>
