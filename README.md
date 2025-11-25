@@ -14,15 +14,14 @@
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-
 **Table of Contents**
 
 - [Description](#description)
-  - [Features](#features)
+    - [Features](#features)
 - [Status](#status)
-  - [Documentation](#documentation)
-    - [README](#readme)
-    - [other Markdown files](#other-markdown-files)
+    - [Documentation](#documentation)
+      - [README](#readme)
+      - [other Markdown files](#other-markdown-files)
 - [Installation](#installation)
   - [Dependencies](#dependencies)
   - [folder structure](#folder-structure)
@@ -141,7 +140,6 @@ bla bla ... with a little help from my friends
 ## folder structure
 
 <!-- readme-tree start -->
-
 ```
 .
 ├── .github
@@ -164,16 +162,17 @@ bla bla ... with a little help from my friends
 │       ├── repo-create_doctoc_md.yml
 │       └── repo-create_tree_readme.yml
 ├── LICENSE
-├── LICENSE_Apache-2
-├── LICENSE_GPL-2
-├── LICENSE_GPL-3
-├── LICENSE_MIT
 ├── README.md
+├── src
+│   ├── CMakeLists.txt
+│   ├── configure
+│   │   ├── rz_config.hpp.in
+│   │   └── rz_write_flatbuffers.fbs
+│   └── main.cpp
 └── tree.bak
 
-6 directories, 21 files
+8 directories, 21 files
 ```
-
 <!-- readme-tree end -->
 
 <p align="right">(<a href="#top">back to top</a>)</p>
