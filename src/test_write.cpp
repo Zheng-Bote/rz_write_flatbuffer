@@ -51,8 +51,13 @@ int main()
 
     getDetailedInfo();
 
+    // QT Creator
+    // loader.setFileName("/home/zb_bamboo/DEV/__NEW__/CPP/Qt_Plugins/plugins/rz_write_flatbuffer/"
+    //                    "build/Desktop_Qt_6_10_0-Debug/librz_write_flatbuffers");
+
+    // VSC
     loader.setFileName("/home/zb_bamboo/DEV/__NEW__/CPP/Qt_Plugins/plugins/rz_write_flatbuffer/"
-                       "build/Desktop_Qt_6_10_0-Debug/librz_write_flatbuffers");
+                       "build/librz_write_flatbuffers");
 
     if (!loader.load())
     {

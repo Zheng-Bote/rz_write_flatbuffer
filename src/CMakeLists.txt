@@ -10,7 +10,7 @@ cmake_minimum_required(VERSION 3.23)
 
 project(
   rz_write_flatbuffers
-  VERSION 0.1.0
+  VERSION 0.1.1
   DESCRIPTION "Plugin to export Metadata to FlatBuffers"
   HOMEPAGE_URL "https://github.com/Zheng-Bote/rz_write_flatbuffer"
   LANGUAGES CXX)
