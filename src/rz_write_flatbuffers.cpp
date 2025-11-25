@@ -2,7 +2,7 @@
  * @file rz_write_flatbuffers.cpp
  * @author ZHENG Robert (robert.hase-zheng.net)
  * @brief write image metadata into FlatBuffers format
- * @version 0.1.0
+ * @version 0.1.1
  * @date 2025-11-25
  *
  * @copyright Copyright (c) 2025 ZHENG Robert
@@ -38,7 +38,7 @@ flatbuffers::DetachedBuffer Rz_writeFlatbuffers::createPictureFlatbuffer(
     const QHash<QString, QString> &iptcData,
     const QHash<QString, QString> &xmpData)
 {
-  flatbuffers::FlatBufferBuilder builder(2048);
+  flatbuffers::FlatBufferBuilder builder(4096);
 
   auto exifObj = CreateExif(builder,
                             getStr(builder, exifData, "file_name"),
