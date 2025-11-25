@@ -1,7 +1,7 @@
 <div id="top" align="center">
 <h1>rz_write_flatbuffer</h1>
 
-<p>Plugin for qt_files_photo-gallery to export Metadata to flatbuffer</p>
+<p>Plugin for qt_files_photo-gallery to export Metadata to FlatBuffers</p>
 
 [Report Issue](https://github.com/Zheng-Bote/rz_write_flatbuffer/issues) [Request Feature](https://github.com/Zheng-Bote/rz_write_flatbuffer/pulls)
 
@@ -14,14 +14,15 @@
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
 **Table of Contents**
 
 - [Description](#description)
-    - [Features](#features)
+  - [Features](#features)
 - [Status](#status)
-    - [Documentation](#documentation)
-      - [README](#readme)
-      - [other Markdown files](#other-markdown-files)
+  - [Documentation](#documentation)
+    - [README](#readme)
+    - [other Markdown files](#other-markdown-files)
 - [Installation](#installation)
   - [Dependencies](#dependencies)
   - [folder structure](#folder-structure)
@@ -58,7 +59,7 @@
 ![QT](https://img.shields.io/badge/Community-6-41CD52?logo=qt)
 ![CXX](https://img.shields.io/badge/C++-23-blue?logo=cplusplus)
 
-Plugin for qt_files_photo-gallery to export Metadata to flatbuffer
+Plugin for qt_files_photo-gallery to export Metadata to FlatBuffers
 
 ### Features
 
@@ -90,13 +91,10 @@ Plugin for qt_files_photo-gallery to export Metadata to flatbuffer
 
 # Status
 
-:arrow_right: <mark>:warning: still under construction :warning:</mark> :arrow_left:
-
 ![GitHub Created At](https://img.shields.io/github/created-at/Zheng-Bote/rz_write_flatbuffer)
 [![GitHub release (latest by date)](https://img.shields.io/github/v/release/Zheng-Bote/rz_write_flatbuffer?logo=GitHub)](https://github.com/Zheng-Bote/rz_write_flatbuffer/releases)
 ![GitHub Release Date](https://img.shields.io/github/release-date/Zheng-Bote/rz_write_flatbuffer)
 ![Status](https://img.shields.io/badge/Status-stable-green)
-![Status](https://img.shields.io/badge/Status-under_construction-red)
 ![Status](https://img.shields.io/badge/Status-works_as_designed-green)
 
 ![GitHub Created At](https://img.shields.io/github/created-at/Zheng-Bote/rz_write_flatbuffer)
@@ -140,6 +138,7 @@ bla bla ... with a little help from my friends
 ## folder structure
 
 <!-- readme-tree start -->
+
 ```
 .
 ├── .github
@@ -173,6 +172,7 @@ bla bla ... with a little help from my friends
 
 8 directories, 21 files
 ```
+
 <!-- readme-tree end -->
 
 <p align="right">(<a href="#top">back to top</a>)</p>
