@@ -2,7 +2,7 @@
  * @file rz_photo-gallery_plugins.hpp
  * @author ZHENG Bote (robert.hase-zheng.net)
  * @brief QT plugin interface
- * @version 2.4.0
+ * @version 2.4.1
  * @date 2025-11-26
  *
  * @copyright Copyright (c) 2023-2025 ZHENG Robert
@@ -21,7 +21,7 @@
 
 /**
  * @brief The Plugin class
- * @details plugin interface class with virtual methods 
+ * @details plugin interface class with virtual methods
  */
 class Plugin
 {
@@ -77,8 +77,15 @@ public:
     virtual std::tuple<bool, std::string> doClose(const QString &type = "") = 0;
     virtual std::tuple<bool, std::string> doRun(const QString &type = "") = 0;
 
-    virtual std::tuple<bool, std::string> setQstring(const QString &string, const QString &type = "")
-        = 0;
+    virtual std::tuple<bool, std::string> setQstring(const QString &string, const QString &type = "") = 0;
+    virtual QString getQstring(const QString &type = "") = 0;
+
+    virtual std::tuple<bool, std::string> setQList(const QList &stringList, const QString &type = "") = 0;
+    virtual QList<QString> getQList(const QString &type = "") = 0;
+
+    virtual std::tuple<bool, std::string> doClose(const QString &type = "") = 0;
+    virtual std::tuple<bool, std::string> doClose(const QString &type = "") = 0;
+
     virtual std::tuple<bool, std::string> setQMap(const QMap<QString, QString> &setQmap,
                                                   const QString &type = "") = 0;
     virtual QMap<QString, QString> getQMap(const QString &type = "") = 0;

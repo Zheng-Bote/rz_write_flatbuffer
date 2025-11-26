@@ -2,7 +2,7 @@
  * @file rz_write_flatbuffers.hpp
  * @author ZHENG Robert (robert.hase-zheng.net)
  * @brief write image metadata into FlatBuffers format
- * @version 0.2.0
+ * @version 0.2.1
  * @date 2025-11-26
  *
  * @copyright Copyright (c) 2025 ZHENG Robert
@@ -74,7 +74,7 @@ private:
                                               const QString &type);
   std::tuple<bool, std::string> createDirectories(const std::filesystem::path &p);
 
-  public:
+public:
   QString getPluginNameShort() Q_DECL_OVERRIDE;
   QString getPluginNameLong() Q_DECL_OVERRIDE;
   QString getPluginVersion() Q_DECL_OVERRIDE;
@@ -104,6 +104,11 @@ private:
 
   std::tuple<bool, std::string> setQstring(const QString &string,
                                            const QString &type = "") Q_DECL_OVERRIDE;
+  QString getQstring(const QString &type = "") Q_DECL_OVERRIDE;
+
+  std::tuple<bool, std::string> setQList(const QList &stringList, const QString &type = "") Q_DECL_OVERRIDE;
+  QList<QString> getQList(const QString &type = "") Q_DECL_OVERRIDE;
+
   std::tuple<bool, std::string> setQMap(const QMap<QString, QString> &setQmap,
                                         const QString &type = "") Q_DECL_OVERRIDE;
   QMap<QString, QString> getQMap(const QString &type = "") Q_DECL_OVERRIDE;
