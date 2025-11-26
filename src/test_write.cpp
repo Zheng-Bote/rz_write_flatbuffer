@@ -2,8 +2,8 @@
  * @file test_write.cpp
  * @author ZHENG Robert (robert.hase-zheng.net)
  * @brief testing the FlatBuffers plugin (write bin)
- * @version 0.2.0
- * @date 2025-11-26
+ * @version 0.1.0
+ * @date 2025-11-25
  *
  * @copyright Copyright (c) 2025 ZHENG Robert
  *

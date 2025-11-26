@@ -303,10 +303,27 @@ std::tuple<bool, std::string> Rz_writeFlatbuffers::setQstring(const QString &str
     return std::make_tuple(false, std::format("{}:{}: wrong paramater", __FILE__, __FUNCTION__));
 }
 
+QString Rz_writeFlatbuffers::getQstring(const QString &type)
+{
+    return "";
+}
+
+std::tuple<bool, std::string> Rz_writeFlatbuffers::setQList(const QList<QString> &stringList,
+                                                            const QString &type)
+{
+    return std::make_tuple(true, std::format("{}:{}:{}", __FILE__, __FUNCTION__, __LINE__));
+}
+
+QList<QString> Rz_writeFlatbuffers::getQList(const QString &type)
+{
+    QList<QString> list("blender");
+    return list;
+}
+
 std::tuple<bool, std::string> Rz_writeFlatbuffers::setQMap(const QMap<QString, QString> &setQmap,
                                                            const QString &type)
 {
-  return std::make_tuple(true, "Rz_writeSQLfile::parseFile");
+    return std::make_tuple(true, std::format("{}:{}:{}", __FILE__, __FUNCTION__, __LINE__));
 }
 
 QMap<QString, QString> Rz_writeFlatbuffers::getQMap(const QString &type)

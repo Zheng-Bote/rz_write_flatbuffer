@@ -106,7 +106,8 @@ public:
                                            const QString &type = "") Q_DECL_OVERRIDE;
   QString getQstring(const QString &type = "") Q_DECL_OVERRIDE;
 
-  std::tuple<bool, std::string> setQList(const QList &stringList, const QString &type = "") Q_DECL_OVERRIDE;
+  std::tuple<bool, std::string> setQList(const QList<QString> &stringList,
+                                         const QString &type = "") Q_DECL_OVERRIDE;
   QList<QString> getQList(const QString &type = "") Q_DECL_OVERRIDE;
 
   std::tuple<bool, std::string> setQMap(const QMap<QString, QString> &setQmap,
