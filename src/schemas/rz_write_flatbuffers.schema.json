@@ -10,13 +10,19 @@
         "filesize" : {
                 "type" : "number"
               },
-        "filesize_x" : {
+        "filewidth" : {
                 "type" : "number"
               },
-        "filesize_y" : {
+        "fileheight" : {
                 "type" : "number"
               },
         "filepath" : {
+                "type" : "string"
+              },
+        "filedatetime" : {
+                "type" : "integer", "minimum" : -9223372036854775808, "maximum" : 9223372036854775807
+              },
+        "access_group" : {
                 "type" : "string"
               },
         "exifdata" : {

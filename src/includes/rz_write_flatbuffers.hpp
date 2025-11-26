@@ -2,8 +2,8 @@
  * @file rz_write_flatbuffers.hpp
  * @author ZHENG Robert (robert.hase-zheng.net)
  * @brief write image metadata into FlatBuffers format
- * @version 0.1.0
- * @date 2025-11-25
+ * @version 0.2.0
+ * @date 2025-11-26
  *
  * @copyright Copyright (c) 2025 ZHENG Robert
  *
@@ -22,8 +22,11 @@
 #include <flatbuffers/flatbuffers.h>
 
 #include "rz_photo-gallery_plugins.hpp"
-#include "rz_write_flatbuffers_generated.h"
 
+/**
+ * @brief The Rz_writeFlatbuffers class
+ * @details writing image Metadata to FlatBuffers file
+ */
 class Rz_writeFlatbuffers : public QObject, public Plugin
 {
   Q_OBJECT
@@ -45,8 +48,11 @@ private:
     QString fileBasename{""};    // 2014-04-18_203353
     QString fileSuffix{""};      // jpg
     QString fileAbolutePath{""}; // /home/zb_bamboo/pictures/images
+    QString homePath{""};        // /home/zb_bamboo
   };
   imageStruct imgStruct;
+
+  void setImgStruct(const imageStruct &imgStructData);
 
   QMap<QString, QString> qMap;
 
@@ -64,26 +70,45 @@ private:
                                                       const QHash<QString, QString> &iptcData,
                                                       const QHash<QString, QString> &xmpData);
 
-public:
+  std::tuple<bool, std::string> isTargetExist(const QFile &pathToTarget,
+                                              const QString &type);
+  std::tuple<bool, std::string> createDirectories(const std::filesystem::path &p);
+
+  public:
   QString getPluginNameShort() Q_DECL_OVERRIDE;
   QString getPluginNameLong() Q_DECL_OVERRIDE;
   QString getPluginVersion() Q_DECL_OVERRIDE;
   QString getPluginDescription() Q_DECL_OVERRIDE;
+  int32_t getPluginMajorVersion() Q_DECL_OVERRIDE;
+  int32_t getPluginMinorVersion() Q_DECL_OVERRIDE;
+  int32_t getPluginPatchVersion() Q_DECL_OVERRIDE;
+  QString getPluginHomepageUrl() Q_DECL_OVERRIDE;
+  QString getPluginCopyright() Q_DECL_OVERRIDE;
+  QString getPluginTechInfo() Q_DECL_OVERRIDE;
 
-  std::tuple<bool, std::string> parseFile(QMap<QString, QString> &mapParseKeys,
-                                          QString pathToFile) Q_DECL_OVERRIDE;
-  std::tuple<bool, std::string> writeFile(QMap<QString, QString> mapParseKeys,
-                                          QMap<QString, QString> mapFileAttribs,
-                                          QString pathToFile) Q_DECL_OVERRIDE;
+  /**
+   * @brief parseFile
+   * @details not in use
+   */
+  std::tuple<bool, std::string> parseFile(const QString &type = "") Q_DECL_OVERRIDE;
 
-  std::tuple<bool, std::string> doRun(const QString &outFile = "") Q_DECL_OVERRIDE;
-  void doClose() Q_DECL_OVERRIDE;
+  /**
+   * @brief writeFile
+   * @param type <path to flatbuffers folder>
+   * @return <bool, msg string>
+   */
+  std::tuple<bool, std::string> writeFile(const QString &type = "") Q_DECL_OVERRIDE;
 
+  std::tuple<bool, std::string> doRun(const QString &type = "") Q_DECL_OVERRIDE;
+  std::tuple<bool, std::string> doClose(const QString &type = "") Q_DECL_OVERRIDE;
+
+  std::tuple<bool, std::string> setQstring(const QString &string,
+                                           const QString &type = "") Q_DECL_OVERRIDE;
   std::tuple<bool, std::string> setQMap(const QMap<QString, QString> &setQmap,
-                                        const QString &type) Q_DECL_OVERRIDE;
+                                        const QString &type = "") Q_DECL_OVERRIDE;
   QMap<QString, QString> getQMap(const QString &type = "") Q_DECL_OVERRIDE;
 
   std::tuple<bool, std::string> setQHash(const QHash<QString, QString> &setQhash,
-                                         const QString &type) Q_DECL_OVERRIDE;
+                                         const QString &type = "") Q_DECL_OVERRIDE;
   QHash<QString, QString> getQHash(const QString &type = "") Q_DECL_OVERRIDE;
 };

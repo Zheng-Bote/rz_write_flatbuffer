@@ -2,8 +2,8 @@
  * @file test_read.cpp
  * @author ZHENG Robert (robert.hase-zheng.net)
  * @brief testing (reading) the FlatBuffers bin file
- * @version 0.1.0
- * @date 2025-11-25
+ * @version 0.2.0
+ * @date 2025-11-26
  *
  * @copyright Copyright (c) 2025 ZHENG Robert
  *
@@ -76,9 +76,11 @@ bool loadPictureFlatbuffer(
     // -------------------------------
     pictureData["file_name"] = fbStr(pic->file_name());
     pictureData["filesize"] = QString::number(pic->filesize());
-    pictureData["filesize_x"] = QString::number(pic->filesize_x());
-    pictureData["filesize_y"] = QString::number(pic->filesize_y());
+    pictureData["filewidth"] = QString::number(pic->filewidth());
+    pictureData["fileheight"] = QString::number(pic->fileheight());
     pictureData["filepath"] = fbStr(pic->filepath());
+    pictureData["filedatetime"] = QString::number(pic->filedatetime());
+    pictureData["access_groups"] = fbStr(pic->access_group());
 
     // -------------------------------
     // Exif → QHash

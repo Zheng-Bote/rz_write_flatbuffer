@@ -33,12 +33,14 @@ struct Picture FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
   enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
     VT_FILE_NAME = 4,
     VT_FILESIZE = 6,
-    VT_FILESIZE_X = 8,
-    VT_FILESIZE_Y = 10,
+    VT_FILEWIDTH = 8,
+    VT_FILEHEIGHT = 10,
     VT_FILEPATH = 12,
-    VT_EXIFDATA = 14,
-    VT_IPTCDATA = 16,
-    VT_XMPDATA = 18
+    VT_FILEDATETIME = 14,
+    VT_ACCESS_GROUP = 16,
+    VT_EXIFDATA = 18,
+    VT_IPTCDATA = 20,
+    VT_XMPDATA = 22
   };
   const ::flatbuffers::String *file_name() const {
     return GetPointer<const ::flatbuffers::String *>(VT_FILE_NAME);
@@ -46,14 +48,20 @@ struct Picture FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
   float filesize() const {
     return GetField<float>(VT_FILESIZE, 0.0f);
   }
-  float filesize_x() const {
-    return GetField<float>(VT_FILESIZE_X, 0.0f);
+  float filewidth() const {
+    return GetField<float>(VT_FILEWIDTH, 0.0f);
   }
-  float filesize_y() const {
-    return GetField<float>(VT_FILESIZE_Y, 0.0f);
+  float fileheight() const {
+    return GetField<float>(VT_FILEHEIGHT, 0.0f);
   }
   const ::flatbuffers::String *filepath() const {
     return GetPointer<const ::flatbuffers::String *>(VT_FILEPATH);
+  }
+  int64_t filedatetime() const {
+    return GetField<int64_t>(VT_FILEDATETIME, 0);
+  }
+  const ::flatbuffers::String *access_group() const {
+    return GetPointer<const ::flatbuffers::String *>(VT_ACCESS_GROUP);
   }
   const Image::Metadatas::Exif *exifdata() const {
     return GetPointer<const Image::Metadatas::Exif *>(VT_EXIFDATA);
@@ -69,10 +77,13 @@ struct Picture FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
            VerifyOffset(verifier, VT_FILE_NAME) &&
            verifier.VerifyString(file_name()) &&
            VerifyField<float>(verifier, VT_FILESIZE, 4) &&
-           VerifyField<float>(verifier, VT_FILESIZE_X, 4) &&
-           VerifyField<float>(verifier, VT_FILESIZE_Y, 4) &&
+           VerifyField<float>(verifier, VT_FILEWIDTH, 4) &&
+           VerifyField<float>(verifier, VT_FILEHEIGHT, 4) &&
            VerifyOffset(verifier, VT_FILEPATH) &&
            verifier.VerifyString(filepath()) &&
+           VerifyField<int64_t>(verifier, VT_FILEDATETIME, 8) &&
+           VerifyOffset(verifier, VT_ACCESS_GROUP) &&
+           verifier.VerifyString(access_group()) &&
            VerifyOffset(verifier, VT_EXIFDATA) &&
            verifier.VerifyTable(exifdata()) &&
            VerifyOffset(verifier, VT_IPTCDATA) &&
@@ -93,14 +104,20 @@ struct PictureBuilder {
   void add_filesize(float filesize) {
     fbb_.AddElement<float>(Picture::VT_FILESIZE, filesize, 0.0f);
   }
-  void add_filesize_x(float filesize_x) {
-    fbb_.AddElement<float>(Picture::VT_FILESIZE_X, filesize_x, 0.0f);
+  void add_filewidth(float filewidth) {
+    fbb_.AddElement<float>(Picture::VT_FILEWIDTH, filewidth, 0.0f);
   }
-  void add_filesize_y(float filesize_y) {
-    fbb_.AddElement<float>(Picture::VT_FILESIZE_Y, filesize_y, 0.0f);
+  void add_fileheight(float fileheight) {
+    fbb_.AddElement<float>(Picture::VT_FILEHEIGHT, fileheight, 0.0f);
   }
   void add_filepath(::flatbuffers::Offset<::flatbuffers::String> filepath) {
     fbb_.AddOffset(Picture::VT_FILEPATH, filepath);
+  }
+  void add_filedatetime(int64_t filedatetime) {
+    fbb_.AddElement<int64_t>(Picture::VT_FILEDATETIME, filedatetime, 0);
+  }
+  void add_access_group(::flatbuffers::Offset<::flatbuffers::String> access_group) {
+    fbb_.AddOffset(Picture::VT_ACCESS_GROUP, access_group);
   }
   void add_exifdata(::flatbuffers::Offset<Image::Metadatas::Exif> exifdata) {
     fbb_.AddOffset(Picture::VT_EXIFDATA, exifdata);
@@ -126,19 +143,23 @@ inline ::flatbuffers::Offset<Picture> CreatePicture(
     ::flatbuffers::FlatBufferBuilder &_fbb,
     ::flatbuffers::Offset<::flatbuffers::String> file_name = 0,
     float filesize = 0.0f,
-    float filesize_x = 0.0f,
-    float filesize_y = 0.0f,
+    float filewidth = 0.0f,
+    float fileheight = 0.0f,
     ::flatbuffers::Offset<::flatbuffers::String> filepath = 0,
+    int64_t filedatetime = 0,
+    ::flatbuffers::Offset<::flatbuffers::String> access_group = 0,
     ::flatbuffers::Offset<Image::Metadatas::Exif> exifdata = 0,
     ::flatbuffers::Offset<Image::Metadatas::Iptc> iptcdata = 0,
     ::flatbuffers::Offset<Image::Metadatas::Xmp> xmpdata = 0) {
   PictureBuilder builder_(_fbb);
+  builder_.add_filedatetime(filedatetime);
   builder_.add_xmpdata(xmpdata);
   builder_.add_iptcdata(iptcdata);
   builder_.add_exifdata(exifdata);
+  builder_.add_access_group(access_group);
   builder_.add_filepath(filepath);
-  builder_.add_filesize_y(filesize_y);
-  builder_.add_filesize_x(filesize_x);
+  builder_.add_fileheight(fileheight);
+  builder_.add_filewidth(filewidth);
   builder_.add_filesize(filesize);
   builder_.add_file_name(file_name);
   return builder_.Finish();
@@ -148,21 +169,26 @@ inline ::flatbuffers::Offset<Picture> CreatePictureDirect(
     ::flatbuffers::FlatBufferBuilder &_fbb,
     const char *file_name = nullptr,
     float filesize = 0.0f,
-    float filesize_x = 0.0f,
-    float filesize_y = 0.0f,
+    float filewidth = 0.0f,
+    float fileheight = 0.0f,
     const char *filepath = nullptr,
+    int64_t filedatetime = 0,
+    const char *access_group = nullptr,
     ::flatbuffers::Offset<Image::Metadatas::Exif> exifdata = 0,
     ::flatbuffers::Offset<Image::Metadatas::Iptc> iptcdata = 0,
     ::flatbuffers::Offset<Image::Metadatas::Xmp> xmpdata = 0) {
   auto file_name__ = file_name ? _fbb.CreateString(file_name) : 0;
   auto filepath__ = filepath ? _fbb.CreateString(filepath) : 0;
+  auto access_group__ = access_group ? _fbb.CreateString(access_group) : 0;
   return Image::Metadatas::CreatePicture(
       _fbb,
       file_name__,
       filesize,
-      filesize_x,
-      filesize_y,
+      filewidth,
+      fileheight,
       filepath__,
+      filedatetime,
+      access_group__,
       exifdata,
       iptcdata,
       xmpdata);

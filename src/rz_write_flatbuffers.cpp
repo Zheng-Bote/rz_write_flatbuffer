@@ -2,16 +2,19 @@
  * @file rz_write_flatbuffers.cpp
  * @author ZHENG Robert (robert.hase-zheng.net)
  * @brief write image metadata into FlatBuffers format
- * @version 0.1.1
- * @date 2025-11-25
+ * @version 0.2.0
+ * @date 2025-11-26
  *
  * @copyright Copyright (c) 2025 ZHENG Robert
  *
  */
 
 #include "includes/rz_write_flatbuffers.hpp"
+#include "includes/rz_write_flatbuffers_generated.h"
 
+#include <QDir>
 #include "includes/rz_config.hpp"
+#include <chrono>
 #include <format>
 
 using namespace Image::Metadatas;
@@ -90,15 +93,93 @@ flatbuffers::DetachedBuffer Rz_writeFlatbuffers::createPictureFlatbuffer(
   auto pictureObj = CreatePicture(builder,
                                   getStr(builder, pictureData, "file_name"),
                                   pictureData.value("filesize").toFloat(),
-                                  pictureData.value("filesize_x").toFloat(),
-                                  pictureData.value("filesize_y").toFloat(),
+                                  pictureData.value("filewidth").toFloat(),
+                                  pictureData.value("fileheight").toFloat(),
                                   getStr(builder, pictureData, "filepath"),
+                                  pictureData.value("filedatetime").toLong(),
+                                  getStr(builder, pictureData, "access_groups"),
                                   exifObj,
                                   iptcObj,
                                   xmpObj);
 
   builder.Finish(pictureObj, "PLUG");
   return builder.Release();
+}
+
+std::tuple<bool, std::string> Rz_writeFlatbuffers::isTargetExist(const QFile &pathToTarget,
+                                                                 const QString &type)
+{
+    const QFileInfo fInfo(pathToTarget);
+
+    msg = "";
+    oknok = false;
+
+    if (type.contains("dir")) {
+        if (!pathToTarget.exists()) {
+            qDebug() << "createDirectories(fInfo.absolutePath().toStdString(): "
+                     << fInfo.absolutePath().toStdString();
+            std::tie(oknok, msg) = createDirectories(fInfo.absoluteFilePath().toStdString());
+        }
+        if (fInfo.isDir() && fInfo.isWritable()) {
+            return std::make_tuple(true,
+                                   std::format("{}:{}:{}: Folder exists and is writeable.",
+                                               __FILE__,
+                                               __FUNCTION__,
+                                               __LINE__));
+        } else {
+            return std::make_tuple(
+                true,
+                std::format("{}:{}:{}: Target is not a directory or not writeable.",
+                            __FILE__,
+                            __FUNCTION__,
+                            __LINE__));
+        }
+    }
+    if (!pathToTarget.exists()) {
+        return std::make_tuple(false,
+                               std::format("{}:{}:{}: Target doesn't exist.",
+                                           __FILE__,
+                                           __FUNCTION__,
+                                           __LINE__));
+    }
+    if (type.contains("file") && fInfo.isFile() && fInfo.isWritable()) {
+        return std::make_tuple(true,
+                               std::format("{}:{}:{}: File exists and is writeable",
+                                           __FILE__,
+                                           __FUNCTION__,
+                                           __LINE__));
+    }
+    return std::make_tuple(false, std::format("{}:{}", __FILE__, __FUNCTION__));
+}
+
+std::tuple<bool, std::string> Rz_writeFlatbuffers::createDirectories(const std::filesystem::path &p)
+{
+    std::filesystem::path nested = p;
+
+    try {
+        if (std::filesystem::create_directories(nested)) {
+            return std::make_tuple(true,
+                                   std::format("{}:{}:{}: Nested directories created successfully",
+                                               __FILE__,
+                                               __FUNCTION__,
+                                               __LINE__));
+
+        } else {
+            return std::make_tuple(false,
+                                   std::format("{}:{}:{}: Failed to create nested directories",
+                                               __FILE__,
+                                               __FUNCTION__,
+                                               __LINE__));
+            // std::cout << ec.message() << '\n';
+        }
+    } catch (const std::exception &ex) {
+        std::string msg = std::format("{}:{}:{}: Failed creating directories: ",
+                                      __FILE__,
+                                      __FUNCTION__,
+                                      __LINE__);
+        msg.append(ex.what());
+        return std::make_tuple(false, msg);
+    }
 }
 
 QString Rz_writeFlatbuffers::getPluginNameShort()
@@ -122,39 +203,105 @@ QString Rz_writeFlatbuffers::getPluginDescription()
   return PROJECT_DESCRIPTION.c_str();
 }
 
-std::tuple<bool, std::string> Rz_writeFlatbuffers::parseFile(QMap<QString, QString> &mapParseKeys,
-                                                             QString pathToFile)
+int32_t Rz_writeFlatbuffers::getPluginMajorVersion()
+{
+    return PROJECT_VERSION_MAJOR;
+}
+
+int32_t Rz_writeFlatbuffers::getPluginMinorVersion()
+{
+    return PROJECT_VERSION_MINOR;
+}
+
+int32_t Rz_writeFlatbuffers::getPluginPatchVersion()
+{
+    return PROJECT_VERSION_PATCH;
+}
+
+QString Rz_writeFlatbuffers::getPluginHomepageUrl()
+{
+    return PROJECT_HOMEPAGE_URL.c_str();
+}
+
+QString Rz_writeFlatbuffers::getPluginCopyright()
+{
+    const auto now = std::chrono::system_clock::now();
+    std::string ret = std::format("Copyright {}-{:%Y} {}", PROG_CREATED, now, PROG_AUTHOR);
+    return ret.c_str();
+}
+
+QString Rz_writeFlatbuffers::getPluginTechInfo()
+{
+    std::string ret = std::format("{} {}", CMAKE_CXX_COMPILER, CMAKE_CXX_STANDARD);
+    return ret.c_str();
+}
+
+std::tuple<bool, std::string> Rz_writeFlatbuffers::parseFile(const QString &type)
 {
   return std::make_tuple(true, std::format("{}:{}", __FILE__, __FUNCTION__));
 }
 
-std::tuple<bool, std::string> Rz_writeFlatbuffers::writeFile(QMap<QString, QString> mapParseKeys,
-                                                             QMap<QString, QString> mapFileAttribs,
-                                                             QString pathToFile)
+/**
+ * @brief Rz_writeFlatbuffers::writeFile
+ * @param type <path to flatbuffers folder>
+ * @return <bool, msg string>
+ */
+std::tuple<bool, std::string> Rz_writeFlatbuffers::writeFile(const QString &pathToBinDir)
 {
-  return std::make_tuple(true, std::format("{}:{}", __FILE__, __FUNCTION__));
+    std::tie(oknok, msg) = isTargetExist(QFile(pathToBinDir), "dir");
+    if (!oknok) {
+        return std::make_tuple(false,
+                               std::format("{}:{}:{}: {}", __FILE__, __FUNCTION__, __LINE__, msg));
+    }
+
+    auto buf = createPictureFlatbuffer(pictureData, exifData, iptcData, xmpData);
+
+    QString binFile = pathToBinDir + "/" + imgStruct.fileBasename + ".bin";
+
+    QFile out(binFile);
+    if (out.open(QIODevice::WriteOnly)) {
+        out.write(reinterpret_cast<const char *>(buf.data()), buf.size());
+        out.close();
+        qDebug() << "FlatBuffer saved: " << binFile << "(" << buf.size() << " bytes)\n";
+    } else {
+        qDebug() << "Unable to write file " << out.errorString();
+        return std::make_tuple(false,
+                               std::format("{}:{}: Unable to write file {}.",
+                                           __FILE__,
+                                           __FUNCTION__,
+                                           out.errorString().toStdString()));
+    }
+    return std::make_tuple(true,
+                           std::format("{}:{}: {}", __FILE__, __FUNCTION__, binFile.toStdString()));
 }
 
-std::tuple<bool, std::string> Rz_writeFlatbuffers::doRun(const QString &outFile)
+std::tuple<bool, std::string> Rz_writeFlatbuffers::doRun(const QString &type)
 {
-  auto buf = createPictureFlatbuffer(pictureData, exifData, iptcData, xmpData);
-
-  QFile out(outFile);
-  if (out.open(QIODevice::WriteOnly))
-  {
-    out.write(reinterpret_cast<const char *>(buf.data()), buf.size());
-    out.close();
-    qDebug() << "FlatBuffer saved: " << outFile << "(" << buf.size() << " bytes)\n";
-  }
-  else
-  {
-    qDebug() << "Unable to write file!\n";
-  }
-
-  return std::make_tuple(true, "Rz_writeSQLfile::parseFile");
+    return std::make_tuple(true, std::format("{}:{}", __FILE__, __FUNCTION__));
 }
 
-void Rz_writeFlatbuffers::doClose() {}
+std::tuple<bool, std::string> Rz_writeFlatbuffers::doClose(const QString &type)
+{
+    return std::make_tuple(true, std::format("{}:{}", __FILE__, __FUNCTION__));
+}
+
+std::tuple<bool, std::string> Rz_writeFlatbuffers::setQstring(const QString &string,
+                                                              const QString &type)
+{
+    if (type.contains("imgStruct")) {
+        QFileInfo fileInfo(string);
+
+        imgStruct.fileName = fileInfo.fileName();
+        imgStruct.fileBasename = fileInfo.completeBaseName();
+        imgStruct.fileSuffix = fileInfo.completeSuffix();
+        imgStruct.fileAbolutePath = fileInfo.absolutePath();
+        imgStruct.homePath = QDir::homePath();
+        return std::make_tuple(true,
+                               std::format("{}:{}:{}: imgStruct", __FILE__, __FUNCTION__, __LINE__));
+    }
+
+    return std::make_tuple(false, std::format("{}:{}: wrong paramater", __FILE__, __FUNCTION__));
+}
 
 std::tuple<bool, std::string> Rz_writeFlatbuffers::setQMap(const QMap<QString, QString> &setQmap,
                                                            const QString &type)
@@ -192,10 +339,7 @@ std::tuple<bool, std::string> Rz_writeFlatbuffers::setQHash(const QHash<QString,
   }
 
   return std::make_tuple(false,
-                         std::format("{}:{}:{}: wrong parameter",
-                                     __FILE__,
-                                     __FUNCTION__,
-                                     __LINE__));
+                         std::format("{}:{}:{}: wrong parameter", __FILE__, __FUNCTION__, __LINE__));
 }
 
 QHash<QString, QString> Rz_writeFlatbuffers::getQHash(const QString &type)

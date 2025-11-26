@@ -2,8 +2,8 @@
  * @file test_write.cpp
  * @author ZHENG Robert (robert.hase-zheng.net)
  * @brief testing the FlatBuffers plugin (write bin)
- * @version 0.1.0
- * @date 2025-11-25
+ * @version 0.2.0
+ * @date 2025-11-26
  *
  * @copyright Copyright (c) 2025 ZHENG Robert
  *
@@ -77,9 +77,11 @@ int main()
 
     QHash<QString, QString> pictureData{{"file_name", imgStruct.fileName},
                                         {"filesize", "12345"},
-                                        {"filesize_x", "4096"},
-                                        {"filesize_y", "2160"},
-                                        {"filepath", imgStruct.fileAbolutePath}};
+                                        {"filewidth", "4096"},
+                                        {"fileheight", "2160"},
+                                        {"filepath", imgStruct.fileAbolutePath},
+                                        {"filedatetime", "2014-04-18_203353"},
+                                        {"access_groups", "admin"}};
     std::tie(oknok, msg) = plugin->setQHash(pictureData, "PICTURE");
     if (!oknok)
     {
@@ -96,11 +98,13 @@ int main()
                                      {"imagedescription", "Ein schönes Bild"},
                                      {"gpslatitude", "52.5200"},
                                      {"gpslongitude", "13.4050"}};
+
     std::tie(oknok, msg) = plugin->setQHash(exifData, "EXIF");
     QHash<QString, QString> iptcData{{"file_name", imgStruct.fileName},
                                      {"objectname", "Sonnenuntergang"},
                                      {"caption", "Sehr schönes Abendlicht"},
                                      {"copyright", "© Mustermann"}};
+
     std::tie(oknok, msg) = plugin->setQHash(iptcData, "IPTC");
     QHash<QString, QString> xmpData{{"file_name", imgStruct.fileName},
                                     {"imageid", "IMG2025"},
@@ -109,7 +113,13 @@ int main()
                                     {"city", "Berlin"}};
     std::tie(oknok, msg) = plugin->setQHash(xmpData, "XMP");
 
-    plugin->doRun(imgStruct.fileBasename + ".bin");
+    // create Image struct, needed for FlatBuffer filename
+    std::tie(oknok, msg) = plugin->setQstring(imgStruct.fileAbolutePath + "/" + imgStruct.fileName,
+                                              "imgStruct");
+
+    // write FlatBuffer to the given folder (<fileBasename>.bin)
+    plugin->writeFile("/home/zb_bamboo/DEV/__NEW__/CPP/Qt_Plugins/plugins/rz_write_flatbuffer/"
+                      "build/FlatBuffers/test/ImageBins");
 
     return EXIT_SUCCESS;
 }

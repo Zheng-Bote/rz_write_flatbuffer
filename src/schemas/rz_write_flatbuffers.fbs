@@ -3,9 +3,11 @@ namespace Image.Metadatas;
 table Picture { 
   file_name:string;
   filesize:float;
-  filesize_x:float;
-  filesize_y:float; 
+  filewidth:float;
+  fileheight:float; 
   filepath:string;
+	filedatetime:long;
+	access_group:string;
   exifdata:Exif;
   iptcdata:Iptc;
 	xmpdata:Xmp;
